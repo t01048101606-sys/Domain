@@ -206,5 +206,88 @@ git save "수정 내용"
 | `fatal: not a git repository` | 그 폴더에서 `git init` 안 한 상태. `git init`부터. |
 | `divergent branches` 에러 | `git config pull.rebase false` 실행 후 다시 `git pull` |
 | `CONFLICT (add/add)` | 로컬 버전 유지하려면 `git checkout --ours .` 후 add+commit |
+| `! [rejected] ... (fetch first)` | GitHub에 로컬에 없는 커밋이 있음. `git pull` 먼저 하고 다시 `git push` |
+| push 시 비밀번호 안 먹힘 | 계정 비밀번호가 아니라 Personal Access Token을 입력해야 함 |
+| 매번 토큰 입력 귀찮음 | `git config --global credential.helper store` |
+| `nano` 편집기가 갑자기 뜸 (병합 커밋 메시지 등) | 당황하지 말고 `Ctrl+O` → Enter(저장) → `Ctrl+X`(나가기) |
+| `vim` 편집기가 갑자기 뜸 | `Esc` → `:wq` → Enter |
+| 파일명을 대소문자 다르게 만들어버림 (예: `mes.md`) | `mv mes.md MES.md`로 이름 정정, 중복 생겼으면 `rm`으로 여분 삭제 |
+
+---
+
+## 8. 실전 예제 — 파일 하나 수정해서 GitHub에 반영하기
+
+가장 자주 반복하게 될 흐름을 실제 예시로 정리한다. (`MES.md`에 한 줄 추가하는 경우)
+
+### 8-1. 파일 열어서 수정
+
+```bash
+cd ~/work/mini_mes
+nano MES.md
+```
+
+원하는 내용 추가 후 저장: `Ctrl+O` → Enter → `Ctrl+X`
+
+### 8-2. 뭐가 바뀌었는지 확인
+
+```bash
+git status
+```
+```
+Changes not staged for commit:
+        modified:   MES.md
+```
+
+자세한 변경 내용까지 보고 싶으면:
+```bash
+git diff
+```
+
+### 8-3. Staging → Commit
+
+```bash
+git add MES.md
+git commit -m "MES.md에 업데이트 로그 섹션 추가"
+```
+
+### 8-4. Push
+
+```bash
+git push
+```
+
+**여기서 거부(rejected)될 수 있다** — GitHub 쪽에 로컬에 없는 커밋이 있을 때 흔히 발생:
+```
+! [rejected]        main -> main (fetch first)
+```
+
+이 경우 당황하지 말고:
+
+```bash
+git pull
+```
+
+- 자동으로 조용히 합쳐지면 → 그대로 다음 단계로
+- `nano`(또는 `vim`) 편집기가 병합 커밋 메시지 화면으로 뜨면 → 기본 메시지 그대로 두고 저장 후 나가기 (`Ctrl+O` → Enter → `Ctrl+X`)
+- `CONFLICT` 뜨면 → 7번 표 참고
+
+그 다음 다시:
+```bash
+git push
+```
+
+성공하면:
+```
+To https://github.com/계정명/저장소이름.git
+   e255de3..494fa14  main -> main
+```
+
+### 8-5. 확인
+
+GitHub 웹사이트에서 파일 열어서 내용 반영됐는지 확인. 저장소 커밋 목록에서 방금 쓴 커밋 메시지도 확인 가능.
+
+> 여러 곳(다른 컴퓨터, GitHub 웹 등)에서 같은 저장소를 건드렸다면 8-4의 `rejected → pull → push` 패턴을 자주 겪게 된다. 당황하지 않고 pull 먼저 하면 대부분 해결된다.
+| `divergent branches` 에러 | `git config pull.rebase false` 실행 후 다시 `git pull` |
+| `CONFLICT (add/add)` | 로컬 버전 유지하려면 `git checkout --ours .` 후 add+commit |
 | push 시 비밀번호 안 먹힘 | 계정 비밀번호가 아니라 Personal Access Token을 입력해야 함 |
 | 매번 토큰 입력 귀찮음 | `git config --global credential.helper store` |
