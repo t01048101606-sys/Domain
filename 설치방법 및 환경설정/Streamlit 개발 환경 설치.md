@@ -1,4 +1,4 @@
-# Streamlit 개발 환경 설치
+# 0. Streamlit 개발 환경 설치
 
 ---
 
