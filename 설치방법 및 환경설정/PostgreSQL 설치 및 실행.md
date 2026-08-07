@@ -398,14 +398,14 @@ Streamlit
 WSL Ubuntu 터미널에서 프로젝트 폴더를 생성합니다.
 
 ```bash
-mkdir postgresql_streamlit
-cd postgresql_streamlit
+mkdir postgresql
+cd postgresql
 ```
 
 프로젝트 구조는 다음과 같습니다.
 
 ```text
-postgresql_streamlit/
+postgresql/
 ├── app.py
 ├── .env
 ├── .gitignore
@@ -417,13 +417,13 @@ postgresql_streamlit/
 ## 2. Python 가상환경 생성
 
 ```bash
-python3 -m venv pgsql1
+python3 -m venv pgsql
 ```
 
 가상환경을 활성화합니다.
 
 ```bash
-source pgsql1/bin/activate
+source pgsql/bin/activate
 ```
 
 `venv` 모듈이 설치되어 있지 않다면 다음 명령으로 설치합니다.
@@ -647,11 +647,10 @@ def fetch_students() -> pd.DataFrame:
 
 st.set_page_config(
     page_title="학생 관리",
-    page_icon="🎓",
     layout="wide",
 )
 
-st.title("🎓 학생 목록")
+st.title("학생 목록")
 st.write("PostgreSQL의 `student` 테이블 데이터를 조회합니다.")
 
 try:
@@ -887,4 +886,4 @@ streamlit run app.py
 
 이번 단계에서는 PostgreSQL의 학생 데이터를 조회하여 Streamlit 화면에 출력했습니다.
 
-다음 단계에서는 학생 등록, 수정, 삭제 기능을 추가하여 CRUD 프로그램으로 확장할 수 있
+다음 단계에서는 학생 등록, 수정, 삭제 기능을 추가하여 CRUD 프로그램으로 확장할 수 있습니다.
